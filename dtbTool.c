@@ -57,8 +57,8 @@
 #define RC_SUCCESS     0
 #define RC_ERROR       -1
 
-#define INFO_ENTRY_SIZE 16
-#define INFO_ENTRY_SIZE_S "16"
+#define INFO_ENTRY_SIZE     16
+#define INFO_ENTRY_SIZE_S  "16"
 #define TABLE_ENTRY_HEADER_SIZE (INFO_ENTRY_SIZE * 3 + sizeof(uint32_t) * 2)
 
 struct chipInfo_t {
@@ -81,7 +81,7 @@ int   page_size = PAGE_SIZE_DEF;
 
 int entry_cmp(uint8_t *a, uint8_t *b)
 {
-	return memcmp(a, b, INFO_ENTRY_SIZE);
+    return memcmp(a, b, INFO_ENTRY_SIZE);
 }
 
 uint32_t swap_bytes_u32(uint32_t b) {
@@ -401,8 +401,8 @@ int main(int argc, char **argv)
                 }
 
                 log_info("chipset: %" INFO_ENTRY_SIZE_S "s, "
-                		"platform: %" INFO_ENTRY_SIZE_S "s, "
-                		"rev: %" INFO_ENTRY_SIZE_S "s\n",
+                         "platform: %" INFO_ENTRY_SIZE_S "s, "
+                         "rev: %" INFO_ENTRY_SIZE_S "s\n",
                          chip->chipset, chip->platform, chip->revNum);
 
                 rc = chip_add(chip);

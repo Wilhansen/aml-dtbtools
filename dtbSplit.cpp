@@ -137,7 +137,6 @@ void dumpData(const uint32_t entries, const string &dest, ifstream &dtb) {
 		ofstream output(dest + id.str() + ".dtb", ios::binary);
 		output.write(data.data(), data.size());
 	}
-
 }
 
 int main(int argc, char **argv) {
