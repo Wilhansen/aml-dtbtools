@@ -460,10 +460,11 @@ int main(int argc, char **argv)
     for (chip = chip_list; chip; chip = chip->next) {
         /* for some reason, the id entries are flipped. */
         {
+            int i;
             uint32_t *u32chipset = (uint32_t*)chip->chipset,
                      *u32platform = (uint32_t*)chip->platform,
                      *u32revNum = (uint32_t*)chip->revNum;
-            for ( int i = 0; i < INFO_ENTRY_SIZE/sizeof(uint32_t); ++i ) {
+            for ( i = 0; i < INFO_ENTRY_SIZE/sizeof(uint32_t); ++i ) {
                 *(u32chipset + i) = swap_bytes_u32(*(u32chipset + i));
                 *(u32platform + i) = swap_bytes_u32(*(u32platform + i));
                 *(u32revNum + i) = swap_bytes_u32(*(u32revNum + i));
