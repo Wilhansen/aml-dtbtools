@@ -84,6 +84,13 @@ int entry_cmp(uint8_t *a, uint8_t *b)
 	return memcmp(a, b, INFO_ENTRY_SIZE);
 }
 
+uint32_t swap_bytes_u32(uint32_t b) {
+    return ((b & 0xFF000000) >> 24) |
+           ((b & 0x00FF0000) >> 8) |
+           ((b & 0x0000FF00) << 8) |
+           (b << 24);
+}
+
 void print_help()
 {
     log_info("dtbTool [options] -o <output file> <input DTB path>\n");
@@ -441,9 +448,20 @@ int main(int argc, char **argv)
          dtb size
      */
     for (chip = chip_list; chip; chip = chip->next) {
-        wrote += write(out_fd, &chip->chipset, INFO_ENTRY_SIZE);
-        wrote += write(out_fd, &chip->platform, INFO_ENTRY_SIZE);
-        wrote += write(out_fd, &chip->revNum, INFO_ENTRY_SIZE);
+        /* for some reason, the id entries are flipped. */
+        {
+            uint32_t *u32chipset = (uint32_t*)chip->chipset,
+                     *u32platform = (uint32_t*)chip->platform,
+                     *u32revNum = (uint32_t*)chip->revNum;
+            for ( int i = 0; i < INFO_ENTRY_SIZE/sizeof(uint32_t); ++i ) {
+                *(u32chipset + i) = swap_bytes_u32(*(u32chipset + i));
+                *(u32platform + i) = swap_bytes_u32(*(u32platform + i));
+                *(u32revNum + i) = swap_bytes_u32(*(u32revNum + i));
+            }
+        }
+        wrote += write(out_fd, chip->chipset, INFO_ENTRY_SIZE);
+        wrote += write(out_fd, chip->platform, INFO_ENTRY_SIZE);
+        wrote += write(out_fd, chip->revNum, INFO_ENTRY_SIZE);
         wrote += write(out_fd, &expected, sizeof(uint32_t));
         wrote += write(out_fd, &chip->dtb_size, sizeof(uint32_t));
         expected += chip->dtb_size;
