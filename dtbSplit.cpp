@@ -40,6 +40,7 @@ using namespace std;
 #define DT_HEADER_MAGIC		 0xedfe0dd0
 #define AML_DT_ID_VARI_TOTAL		3
 
+#pragma pack(push, 1)
 struct DTHeader {
 	uint32_t     magic;                  /* magic word of OF_DT_HEADER */
 	uint32_t     totalsize;              /* total size of DT block */
@@ -58,6 +59,7 @@ struct HeaderEntry {
 	uint32_t offset;
 	char padding[4];
 };
+#pragma pack(pop)
 
 typedef HeaderEntry<4> HeaderEntryV1;
 typedef HeaderEntry<16> HeaderEntryV2;
