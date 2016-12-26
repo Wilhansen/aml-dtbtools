@@ -84,15 +84,18 @@ int entry_cmp(uint8_t *a, uint8_t *b)
     return memcmp(a, b, INFO_ENTRY_SIZE);
 }
 
-uint32_t swap_bytes_u32(uint32_t b) {
+uint32_t swap_bytes_u32(uint32_t b)
+{
     return ((b & 0xFF000000) >> 24) |
            ((b & 0x00FF0000) >> 8) |
            ((b & 0x0000FF00) << 8) |
            (b << 24);
 }
-void padSpaces(uint8_t *s, int sz) {
+void padSpaces(uint8_t *s, int sz)
+{
     --sz;
-    while ( sz >= 0 && s[sz] == 0 ) {
+    while ( sz >= 0 && s[sz] == 0 )
+    {
         s[sz] = 0x20;
         --sz;
     }
