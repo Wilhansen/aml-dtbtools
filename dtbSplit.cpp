@@ -74,6 +74,12 @@ void trimSpace(char *b, const int len) {
 		b[len - 1] = 0;
 	}
 }
+uint32_t swap_bytes_u32(uint32_t b) {
+    return ((b & 0xFF000000) >> 24) |
+           ((b & 0x00FF0000) >> 8) |
+           ((b & 0x0000FF00) << 8) |
+           (b << 24);
+}
 template<unsigned int ID_SIZE>
 void dumpData(const uint32_t entries, const string &dest, ifstream &dtb) {
 	typedef HeaderEntry<ID_SIZE> HeaderType;
@@ -93,9 +99,9 @@ void dumpData(const uint32_t entries, const string &dest, ifstream &dtb) {
 		auto u32plat = reinterpret_cast<uint32_t*>(h.plat);
 		auto u32vari = reinterpret_cast<uint32_t*>(h.vari);
 		for ( uint32_t j = 0; j < ID_SIZE/sizeof(uint32_t); ++j ) {
-			*(u32soc + j) = ntohl(*(u32soc + j));
-			*(u32plat + j) = ntohl(*(u32plat + j));
-			*(u32vari + j) = ntohl(*(u32vari + j));
+			*(u32soc + j) = swap_bytes_u32(*(u32soc + j));
+			*(u32plat + j) = swap_bytes_u32(*(u32plat + j));
+			*(u32vari + j) = swap_bytes_u32(*(u32vari + j));
 		}
 		trimSpace(h.soc, ID_SIZE);
 		trimSpace(h.plat, ID_SIZE);
