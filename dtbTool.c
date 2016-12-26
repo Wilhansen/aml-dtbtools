@@ -90,6 +90,13 @@ uint32_t swap_bytes_u32(uint32_t b) {
            ((b & 0x0000FF00) << 8) |
            (b << 24);
 }
+void padSpaces(uint8_t *s, int sz) {
+    --sz;
+    while ( sz >= 0 && s[sz] == 0 ) {
+        s[sz] = 0x20;
+        --sz;
+    }
+}
 
 void print_help()
 {
@@ -458,12 +465,17 @@ int main(int argc, char **argv)
          dtb size
      */
     for (chip = chip_list; chip; chip = chip->next) {
-        /* for some reason, the id entries are flipped. */
+        /* for some reason, the id entries are padded with spaces (0x20)
+        and are flipped. */
         {
             int i;
             uint32_t *u32chipset = (uint32_t*)chip->chipset,
                      *u32platform = (uint32_t*)chip->platform,
                      *u32revNum = (uint32_t*)chip->revNum;
+
+            padSpaces(chip->chipset, INFO_ENTRY_SIZE);
+            padSpaces(chip->platform, INFO_ENTRY_SIZE);
+            padSpaces(chip->revNum, INFO_ENTRY_SIZE);
             for ( i = 0; i < INFO_ENTRY_SIZE/sizeof(uint32_t); ++i ) {
                 *(u32chipset + i) = swap_bytes_u32(*(u32chipset + i));
                 *(u32platform + i) = swap_bytes_u32(*(u32platform + i));
