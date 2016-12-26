@@ -119,8 +119,18 @@ int parse_commandline(int argc, char *const argv[])
            != -1) {
         switch (c) {
         case 1:
-            if (!input_dir)
+            if (!input_dir) {
                 input_dir = optarg;
+                {
+                    int len = strlen(input_dir);
+                    if ( len > 0 && input_dir[len - 2] != '/' ) {
+                        input_dir = malloc(len + 2);
+                        strcpy(input_dir, optarg);
+                        input_dir[len] = '/';
+                        input_dir[len + 1] = 0;
+                    }
+                }
+            }
             break;
         case 'o':
             output_file = optarg;
