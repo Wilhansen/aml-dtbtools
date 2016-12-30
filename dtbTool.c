@@ -133,7 +133,7 @@ int parse_commandline(int argc, char *const argv[])
                 input_dir = optarg;
                 {
                     int len = strlen(input_dir);
-                    if ( len > 1 && input_dir[len - 2] != '/' ) {
+                    if ( len > 1 && input_dir[len - 1] != '/' ) {
                         input_dir = malloc(len + 2);
                         strcpy(input_dir, optarg);
                         input_dir[len] = '/';
