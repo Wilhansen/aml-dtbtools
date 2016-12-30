@@ -439,7 +439,7 @@ int main(int argc, char **argv)
 
     log_info("\nGenerating master DTB... ");
 
-    out_fd = open(output_file, O_WRONLY|O_CREAT | O_TRUNC, S_IRUSR|S_IWUSR);
+    out_fd = open(output_file, O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR);
     if (!out_fd < 0) {
         log_err("Cannot create '%s'\n", output_file);
         rc = RC_ERROR;
