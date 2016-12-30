@@ -204,6 +204,7 @@ int chip_add(struct chipInfo_t *c)
             } else {
                 c->next = x;
                 c->prev = x->prev;
+                x->prev->next = c;
                 x->prev = c;
                 break;
             }
