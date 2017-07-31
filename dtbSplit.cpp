@@ -34,6 +34,9 @@
 #include <string>
 #include <cstdio>
 #include <vector>
+
+#include <arpa/inet.h>
+
 using namespace std;
 
 #define AML_DT_HEADER 0x5f4c4d41
